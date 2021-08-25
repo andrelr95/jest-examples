@@ -1,5 +1,6 @@
-import { findByText, getByText, render, screen } from '@testing-library/react'
 import React from 'react'
+import { create } from 'react-test-renderer'
+import { render, screen, cleanup } from '@testing-library/react'
 
 import DashboardPage from './dashboard.page'
 
@@ -18,62 +19,39 @@ const responseMock = [
   }
 ]
 
-// global.fetch = jest.fn(() => {
-//   const promise = new Promise<Response>((resolve) => {
-//     resolve({
-//       ...new Response(),
-//       json: () => Promise.resolve(({ ...responseMock }))
-//     })
-//   })
-
-//   return promise
-// })
-
 beforeEach(() => {
   jest.spyOn(global, 'fetch').mockImplementationOnce(() => {
     return new Promise<Response>((resolve) => {
       return resolve({
         ...new Response(),
-        json: () => Promise.resolve({ ...responseMock })
+        json: () => Promise.resolve([...responseMock])
       })
     })
   })
 })
 
-describe('Dashboard unit tests', () => {
+afterEach(cleanup)
+
+describe('<DashboardPage /> snapshot test', () => {
+  it('should match snapshot', () => {
+    const component = create(<DashboardPage />).toJSON()
+    expect(component).toMatchSnapshot()
+  })
+})
+
+describe('<DashboardPage /> unit tests', () => {
   it('should exists', () => {
     expect(DashboardPage).toBeDefined()
   })
   it('should render all posts', async () => {
-    // global.fetch = jest.fn(() => {
-    //   const promise = new Promise<Response>((resolve) => {
-    //     resolve({
-    //       ...new Response(),
-    //       json: () => Promise.resolve(({ ...responseMock }))
-    //     })
-    //   })
-    
-    //   return promise
-    // })
-
-    // const fetchMock = jest.spyOn(global, 'fetch').mockImplementationOnce(() => {
-    //   return new Promise<Response>((resolve) => {
-    //     return resolve({
-    //       ...new Response(),
-    //       json: () => Promise.resolve({ ...responseMock })
-    //     })
-    //   })
-    // })
-
+    // Given
+    const spy = jest.spyOn(DashboardPage.prototype, 'componentDidMount');
     render(<DashboardPage />)
-
-    // expect(fetchMock).toHaveBeenCalled()
-    expect(screen.getByText('...loading page')).toBeInTheDocument()
-    expect(await screen.findByText('DASHBOARD')).toBeInTheDocument()
     
-    // console.log({ state: DashboardPage.prototype.state, spy: fetchMock.getMockImplementation() })
-    // DashboardPage.prototype.componentDidMount()
-
-    // expect(spy).toHaveBeenCalled()
+    //Then
+    expect(spy).toHaveBeenCalled()
+    expect(screen.getByText('...loading page')).toBeInTheDocument()
+    const renderedPosts = await screen.findAllByTestId('card-post-test')
+    expect(renderedPosts).toHaveLength(3)
   })
 })

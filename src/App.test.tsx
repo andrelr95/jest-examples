@@ -31,6 +31,4 @@ test('it should redirect to /dashboard when clicked on dashboard button', async 
     userEvent.click(button)
   })
   expect(screen.getByText('...loading page')).toBeInTheDocument()
-  const text = await screen.findByText('DASHBOARD')
-  expect(text).toBeInTheDocument()
 })
