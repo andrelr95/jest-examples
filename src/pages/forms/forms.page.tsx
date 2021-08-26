@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Button from '../../components/button/button.component';
+
 const styles: React.CSSProperties = { 
   display: 'flex', 
   flexDirection: 'column', 
@@ -56,7 +58,7 @@ class FormsPage extends React.Component<{}, FormsPageState> {
             />
           </div>
 
-          <button 
+          <Button
             onClick={
               () => 
                 this.setState(prevState => (
@@ -65,7 +67,7 @@ class FormsPage extends React.Component<{}, FormsPageState> {
               )
             }>
             Mostrar componentes
-          </button>
+          </Button>
 
           {this.state.showComponent && (
             <>

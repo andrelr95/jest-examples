@@ -8,13 +8,16 @@ describe('<FormsPage />', () => {
     expect(FormsPage).toBeDefined()
   })
   it('input only number test', () => {
+    // Given
     render(<FormsPage />)
     const numberInput = screen.getByRole('textbox', { name: /input de número/i })
 
+    // When
     act(() => {
       fireEvent.change(numberInput, { target: { value: 'ABCD222E' } })
     })
 
+    // Then
     expect(numberInput).toHaveValue('222');
   })
 
@@ -22,12 +25,12 @@ describe('<FormsPage />', () => {
     render(<FormsPage />)
     const button = screen.getByRole('button', { name: /mostrar componentes/i})
     expect(screen.queryAllByTestId('card-id-example')).toHaveLength(0);
-    screen.debug()
+    // screen.debug()
 
     act(() => {
       fireEvent.click(button)
     })
-    screen.debug()
+    // screen.debug()
 
     expect(screen.getAllByTestId('card-id-example')).toHaveLength(3)
 

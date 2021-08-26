@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> tests should render correctly the snapshot 1`] = `
+<button
+  onClick={[Function]}
+  style={
+    Object {
+      "backgroundColor": "red",
+      "color": "white",
+    }
+  }
+>
+  Button name
+</button>
+`;
