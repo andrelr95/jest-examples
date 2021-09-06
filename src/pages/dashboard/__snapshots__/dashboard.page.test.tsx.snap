@@ -1,7 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<DashboardPage /> snapshot test should match snapshot 1`] = `
-<span>
-  ...loading page
-</span>
+exports[`<DashboardPage /> snapshot test test 1`] = `
+<div>
+  <h1>
+    Posts
+  </h1>
+  <p>
+    Temos 
+    3
+     posts.
+  </p>
+  <span
+    data-testid="card-post-test"
+    style="margin-bottom: 14px; padding: 14px; border: 1px solid black; border-radius: 8px; min-height: 250px;"
+  >
+    Title: 
+    Post 1 TEST MOCK
+  </span>
+  <span
+    data-testid="card-post-test"
+    style="margin-bottom: 14px; padding: 14px; border: 1px solid black; border-radius: 8px; min-height: 250px;"
+  >
+    Title: 
+    Post 2 TEST MOCK
+  </span>
+  <span
+    data-testid="card-post-test"
+    style="margin-bottom: 14px; padding: 14px; border: 1px solid black; border-radius: 8px; min-height: 250px;"
+  >
+    Title: 
+    Post 3 TEST MOCK
+  </span>
+</div>
 `;

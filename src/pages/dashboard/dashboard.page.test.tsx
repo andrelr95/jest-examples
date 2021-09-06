@@ -1,5 +1,4 @@
 import React from 'react'
-import { create } from 'react-test-renderer'
 import { render, screen, cleanup } from '@testing-library/react'
 
 import DashboardPage from './dashboard.page'
@@ -7,7 +6,7 @@ import DashboardPage from './dashboard.page'
 const responseMock = [
   {
     id: 1,
-    title: "Post 1 TEST MOCK"
+    title: "Post 1 TEST MOCK",
   },
   {
     id: 2,
@@ -19,6 +18,7 @@ const responseMock = [
   }
 ]
 
+// Mock fetch API
 beforeEach(() => {
   jest.spyOn(global, 'fetch').mockImplementationOnce(() => {
     return new Promise<Response>((resolve) => {
@@ -30,14 +30,25 @@ beforeEach(() => {
   })
 })
 
+// Teardown
 afterEach(cleanup)
 
 describe('<DashboardPage /> snapshot test', () => {
-  it('should match snapshot', () => {
-    const component = create(<DashboardPage />).toJSON()
-    expect(component).toMatchSnapshot()
+  it ('test', async () => {
+    // Setup (Given): Renderizar um component/page/view
+    const { container } = render(<DashboardPage />)
+
+    // Interact (When): Neste caso, colocamos um await numa query async somente
+    // para o RTL esperar a operação assíncrona do "componentDidMount" que renderiza
+    // o conteúdo completo.
+    const textTitle = await screen.findByText('Posts')
+    expect(textTitle).toBeInTheDocument()
+
+    // Assert (Then): Comparação entre snapshots
+    expect(container).toMatchSnapshot()
   })
 })
+
 
 describe('<DashboardPage /> unit tests', () => {
   it('should exists', () => {
@@ -46,12 +57,15 @@ describe('<DashboardPage /> unit tests', () => {
   it('should render all posts', async () => {
     // Given
     const spy = jest.spyOn(DashboardPage.prototype, 'componentDidMount');
+
     render(<DashboardPage />)
     
     //Then
     expect(spy).toHaveBeenCalled()
     expect(screen.getByText('...loading page')).toBeInTheDocument()
     const renderedPosts = await screen.findAllByTestId('card-post-test')
+
+
     expect(renderedPosts).toHaveLength(3)
   })
 })

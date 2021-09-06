@@ -18,11 +18,9 @@ class DashboardPage extends React.Component<{}, DashboardPageState> {
     this.setState(prevState => ({ ...prevState, isLoading: true }))
     fetch('https://my-json-server.typicode.com/typicode/demo/posts')
       .then(res => {
-        // console.log('1 then', { res })
         return res.json()
       })
       .then(data => {
-        // console.log('2 then', data)
         this.setState(prevState => ({
           ...prevState,
           posts: [...data]
@@ -36,7 +34,6 @@ class DashboardPage extends React.Component<{}, DashboardPageState> {
       })
   }
 
-
   render() {
     if (this.state.posts) {
       return (
@@ -45,12 +42,18 @@ class DashboardPage extends React.Component<{}, DashboardPageState> {
           <p>Temos {this.state.posts.length} posts.</p>
           {
             this.state.posts.map((post, index) => 
-              <div 
+              <span 
+                key={`post-${index}`}
                 data-testid="card-post-test" 
-                style={{ marginBottom: '14px', padding: '14px', border: '1px solid black', borderRadius: '8px', minHeight: '250px' }} 
-                key={`post-${index}`}>
-                Title: { post.title }
-              </div>
+                style={{ 
+                  marginBottom: '14px', 
+                  padding: '14px', 
+                  border: '1px solid black', 
+                  borderRadius: '8px', 
+                  minHeight: '250px' 
+                }}>
+                Title: { post.title } 
+              </span>
             )
           }
         </>

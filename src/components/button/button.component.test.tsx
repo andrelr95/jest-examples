@@ -1,24 +1,19 @@
 import React from 'react'
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen, cleanup } from '@testing-library/react'
 import { create } from 'react-test-renderer'
 
 import Button from './button.component'
+
+afterEach(cleanup)
 
 describe('<Button /> tests', () => {
   it('should exists', () => {
     expect(Button).toBeDefined()
   })
-
   it('should trigger onClick prop', () => {
     // Given
     const onClickMock = jest.fn()
-    render(
-      <Button
-        onClick={onClickMock}
-      >
-        Button name
-      </Button>
-    )
+    render(<Button onClick={onClickMock}>Button name</Button>)
 
     // When
     act(() => {
